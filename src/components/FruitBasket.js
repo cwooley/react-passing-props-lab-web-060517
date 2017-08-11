@@ -1,32 +1,29 @@
-import React, { Component }  from 'react';
+import React from 'react';
 
 import Filter from './Filter';
 import FilteredFruitList from './FilteredFruitList.js';
 
-class FruitBasket extends Component {
-  constructor() {
-    super();
-
-    this.state = {
-      filters: [],
-      selectedFilter: null
-    };
+const FruitBasket = (props) => {
+  let handleFilterChange = event => {
+    console.log('in basket')
+    props.handleChange(event)
   }
 
-  handleFilterChange = event => {
-    console.log('new filter: ', event.target.value);
-    this.setState({ selectedFilter: event.target.value });
+  FruitBasket.defaultProps = {
+    fruit: 'this',
+    filters: ['lab', 'is'],
+    currentFilter: 'annoying',
+    updateFilterCallback: ()=>{console.log("please dont make us set these useless default parameters anymore...")}
   }
 
-  render() {
-    return (
-      <div className="fruit-basket">
-        <Filter handleChange={this.handleFilterChange} />
-        <FilteredFruitList
-          filter={this.state.selectedFilter} />
-      </div>
-    );
-  }
+  return (
+    <div className="fruit-basket">
+      <Filter handleChange={handleFilterChange} filters={props.filters} />
+      <FilteredFruitList
+        filter={props.selectedFilter} items={props.items}/>
+    </div>
+  );
+
 }
 
 export default FruitBasket;
